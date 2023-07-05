@@ -65,21 +65,38 @@ router.post('/signup', async (req, res) => {
 });
 
 router.get('/signout', (req, res) => {
+  //no user: A GET request to `/user/logout` will redirect to `/`
+  if (req.session && req.session.user) {
 
+  }
+  res.redirect('/');
 });
 
 // renders sign up page
 router.get('/signup', (req, res) => {
+  // user: A GET request to `/user/signup` will redirect to `/`
+  if (req.session && req.session.user) {
+    res.redirect('/');
+  }
   res.render('user/signup');
 });
 
 // renders sign in page
 router.get('/signin', (req, res) => {
+  // user: A GET request to `/user/signin` will redirect to `/user/authenticated`
+
+  if (req.session && req.session.user) {
+    res.redirect('/user/authenticated')
+  }
   res.render('user/signin');
 });
 
 router.get('/authenticated', (req, res) => {
-  res.render('user/authenticated');
+  //no user: A GET request to `/user/authenticated` will redirect to `/`
+  if (req.session && req.session.user) {
+    res.render('user/authenticated');
+  }
+  res.redirect('/');
 });
 
 module.exports = router;
